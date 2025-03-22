@@ -1,33 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 
+import { useState } from 'react'
+import './App.css'
+import { cardsData } from './data/cardsData'
+import CardsContainer from './components/CardsContainer'
+import ActionButtonsContainer from './components/ActionButtonsContainer'
+import AddCardForm from './components/AddCardForm'
+import { ICard } from './interfaces/Card.interface'
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [cards, setCards] = useState(cardsData)
+
+  const deleteCard = (cardId: number) => setCards(cards.filter(el => el.id !== cardId))
+
+  const changeLang = (cardId: number) => {
+    setCards(cards.map(el => 
+      el.id === cardId ? { ...el, lang: el.lang === 'eng' ? 'rus' : 'eng' } : el
+    ));
+  };
+  
+
+  const changeToRus = () => setCards(cards.map(el => {
+    el.lang = 'rus'
+    return el
+  }))
+
+  const changeToEng = () => setCards(cards.map(el => {
+    el.lang = 'eng'
+    return el
+  }))
+
+  const deleteAllCards = () => setCards([])
+
+  const addNewCard = (new_card:ICard) => {
+     setCards([...cards, new_card])
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>Helloooo</h1>
+      <AddCardForm addNewCard={addNewCard}/>
+      <CardsContainer cards={cards} deleteCard={deleteCard} changeLang={changeLang} />
+      <ActionButtonsContainer changeToRus={changeToRus} changeToEng={changeToEng} deleteAllCards={deleteAllCards}/>
     </>
   )
 }
