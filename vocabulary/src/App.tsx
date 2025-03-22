@@ -19,15 +19,9 @@ function App() {
   };
   
 
-  const changeToRus = () => setCards(cards.map(el => {
-    el.lang = 'rus'
-    return el
-  }))
+  const changeToRus = () => setCards(cards.map(el => ({ ...el, lang: 'rus' })));
 
-  const changeToEng = () => setCards(cards.map(el => {
-    el.lang = 'eng'
-    return el
-  }))
+  const changeToEng = () => setCards(cards.map(el => ({ ...el, lang: 'eng' })));
 
   const deleteAllCards = () => setCards([])
 
